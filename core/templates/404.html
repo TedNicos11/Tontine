@@ -7,6 +7,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page not found</title>
 
+<<<<<<< HEAD
+    <!-- Favicons -->
+    <link href="{% static 'images/favicon.png' %}" rel="icon" />
+    <link
+      href="{% static 'images/apple-touch-icon.png' %}"
+      rel="apple-touch-icon"
+    />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'images/favicon-32x32.png' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{% static 'images/favicon-16x16.png' %}"
+    />
+
+=======
+>>>>>>> 00c91d135a0f8369093c18d7ab756c7e2da9a7e3
 
     <style>
         @import url("https://fonts.googleapis.com/css?family=Fira+Sans");
@@ -243,7 +267,7 @@
                 <p class="subheading">
                     Looks like the page you were looking for is no longer here.
                 </p>
-                <a href="{% url 'home' %}" class="back-to-home">Back to home</a>
+                <a href="{% url 'core:home' pk.id user.username %}" class="back-to-home">Back to home</a>
             </div>
         </div>
         <div class="right-section">
