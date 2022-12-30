@@ -33,32 +33,31 @@ class UserRegisterForm(UserCreationForm):
             'password1': 'Mot de passe',
             'password2': 'Confirmation de mot de passe',
         }
-
+        
         widgets = {
             'first_name': TextInput(
                 attrs={
-                    'placeholder': 'Nom(s) (optionnel)',
+                    'placeholder': 'First Name (optional)',
                 }
             ),
-
+            
             'last_name': TextInput(
                 attrs={
-                    'placeholder': 'Prénom(s) (optionnel)',
+                    'placeholder': 'Last Name (optional)',
                 }
             ),
-
+            
             'username': TextInput(
                 attrs={
-                    'placeholder': 'Nom d\'utilisateur',
+                    'placeholder': 'Username',
                 }
             ),
-
+            
             'email': EmailInput(
                 attrs={
-                    'placeholder': 'Adresse email',
+                    'placeholder': 'Email',
                 }
             ),
-
             # 'password1': PasswordInput(
             #     attrs={
             #         'placeholder': 'Password',
