@@ -16,6 +16,9 @@ from .forms import *
 
 # Create your views here
 
+class WelcomeView(TemplateView):
+    template_name = 'welcome.html'
+
 class HomeView(LoginRequiredMixin, View):
     template_name = 'index.html'
     login_url = '/login/'
@@ -38,9 +41,7 @@ class SignUpView(SuccessMessageMixin, CreateView):
     form_class = UserRegisterForm
     success_message = "Your account was created successfully"
 
-
 class LoginView(View):
-    success_url = reverse_lazy('core:home')
     template_name = 'login.html'
     initial = {'key': 'value'}
 
@@ -49,7 +50,7 @@ class LoginView(View):
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('core:home')
+            return redirect(reverse('core:home', kwargs={'pk': request.user.id, 'user': request.user.username}))
         else:
             if request.method == 'POST':
                 username = request.POST.get('username')
