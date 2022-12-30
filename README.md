@@ -14,10 +14,23 @@ dans la tontine. Le logiciel de gestion de la tontine peut être utilisé à des
 - Éviter la perte des rapports des réunions précédentes
 - Contrôler avec précision les intérêts générés par les prêts
 - Suivre l’état financier de tous les membres
+
 <br>
-<br>
+
+**Page D'accueil**
+
 ![Page d'accueil du site Savingz](./core/static/images/Welcome%20to%20Savingz.png)
+
+<br>
+
+**Page D'enregistrement**
+
 ![Enregistrement sur Savingz](./core/static/images/Register%20Savingz.png)
+
+<br>
+
+**Page De Connexion**
+
 ![Connexion sur Savingz](./core/static/images/login%20Savingz.png)
 
 ## <b>Project setup</b>
