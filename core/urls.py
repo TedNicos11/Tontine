@@ -6,6 +6,7 @@ from .views import *
 app_name = 'core'
 
 urlpatterns = [
+    path("", WelcomeView.as_view(), name="index"),
     path('<str:pk>/<str:user>/', HomeView.as_view(), name="home"),
     path('register/', SignUpView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
