@@ -17,22 +17,22 @@ from django.contrib import admin
 from django.urls import path, include
 from core.views import page_not_found_view
 from django.conf import settings
-from django.conf.urls import (handler400, handler403, handler404, handler500)
+# from django.conf.urls import (handler400, handler403, handler404, handler500)
 from django.conf.urls.static import static
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+# from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('core.urls',)),
+    path('', include('core.urls', namespace='core')),
 ]
 
 
-handler404 = 'core.views.page_not_found_view'
+# handler404 = 'core.views.page_not_found_view'
 
 # Manage 404 page
-# handler404 = page_not_found_view.as_view()
+handler404 = page_not_found_view.as_view()
 
 # Automatically handle static and media files
-urlpatterns += staticfiles_urlpatterns()
+# urlpatterns += staticfiles_urlpatterns()
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

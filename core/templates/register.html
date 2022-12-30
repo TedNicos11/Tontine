@@ -1,108 +1,177 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>Enregistrement &middot; Savingz </title>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Local bootstrap CSS and FA Icons -->
-    <link rel="stylesheet" href=" {% static 'extra/bootstrap/css/bootstrap.min.css' %} ">
-    <link rel="stylesheet" href=" {% static 'extra/fontawesome-free-6.1.1-web/css/all.min.css' %} ">
-    
-    <link rel="stylesheet" href="{% static 'css/authenticate.css' %}" />
-    <title>Tontine &middot; Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <!-- Favicons -->
+    <link href="{% static 'images/favicon.png' %}" rel="icon" />
+    <link
+      href="{% static 'images/apple-touch-icon.png' %}"
+      rel="apple-touch-icon"
+    />
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{% static 'images/logo-transport.png' %}">
-
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'images/favicon-32x32.png' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{% static 'images/favicon-16x16.png' %}"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'extra/bootstrap-icons/bootstrap-icons.css' %}"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'vendor/animate/animate.css' %}"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'vendor/select2/select2.min.css' %}"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/auth/util.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/auth/main.css' %}"
+    />
+    <!--===============================================================================================-->
   </head>
   <body>
-      <div class="row">
-
-          <div class="col-sm-12 col-md-6 col-lg-6">
-              <div class="register-form text-center">
-                <img src="{% static 'images/auth/avatar-female.svg' %}" alt="avatar" class="img-fluid">
-                <h2 class="title">Sign Up</h2>
-                  <form action="" method="post">
-                    {% csrf_token %}
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        {{form.first_name}}
-                        <!-- <input type="text" placeholder="Username" name="username"/> -->
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        {{form.last_name}}
-                        <!-- <input type="text" placeholder="Username" name="username"/> -->
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-at"></i>
-                        {{form.username}}
-                        <!-- <input type="text" placeholder="Username" name="username"/> -->
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
-                        {{form.email}}
-                        <!-- <input type="text" placeholder="Email" name="email"/> -->
-                    </div>
-                    <div class="input-field">
-                      <i class="fas fa-lock"></i>
-                      {{form.password1}}
-                      <!-- <input type="password" placeholder="Password" name="password"/> -->
-                    </div>
-                    <div class="input-field">
-                      <i class="fas fa-check"></i>
-                      {{form.password2}}
-                      <!-- <input type="password" placeholder="Confirm Password" name="password2"/> -->
-                    </div>
-
-                  <input type="submit" value="Register" class="btn" name="register"/>
-
-                  <small class="text-danger">
-                      {{form.errors}}
-                  </small>
-
-                  <p class="social-text text-muted">Or Sign up with your social account</p>
-                  <div class="social-media">
-                    <a href="#" class="social-icon">
-                      <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                      <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                      <i class="fab fa-google"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                      <i class="fab fa-github"></i>
-                    </a>
-                  </div>
-                  <br>
-                  </form>
-              </div>
+    <div class="limiter">
+      <div class="container-login100">
+        <div class="wrap-login100-register">
+          <div class="login100-pic js-tilt" data-tilt>
+            <img src="{% static 'images/piggy-bank.png' %}" alt="savingz logo" />
+            <small class="text-danger fw-semibold">
+                {{form.errors}}
+            </small>
           </div>
 
-          <div class="col-sm-12 col-md-6 col-lg-6">
-            <div class="right-panel">
-              <div class="content">
-                  <img src="{% static 'images/logo3.png' %}" alt="" class="img-fluid logo">
-                  <h3>Already one of us ?</h3>
-                  <p>
-                      Already have an account? Login and continue using our services where you left.
-                  </p>
-                  <a href="{% url 'login' %}" class="btn transparent" id="sign-up-btn">
-                    Sign In 
-                    <i class="fa fa-chevron-right"></i>
-                  </a>
-                  <br/>
-                  {% comment %} No need for this anymore {% endcomment %}
-                  {% comment %} <a href="{% url 'home' pk.id user.username %}" class="later-text">Or take a visit and register later <i class="fa fa-chevron-right"></i></a> {% endcomment %}
+          <form class="login100-form validate-form" method="POST">
+            {% csrf_token %}
 
-              </div>
-              <img src="{% static 'images/auth/signup2.svg' %}" class="img-fluid image" alt="" />
+            <span class="login100-form-title">Inscription</span>
+
+            <div
+              class="wrap-input100 validate-input input-field">
+              {{form.first_name}}
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="bi bi-person-fill" aria-hidden="true"></i>
+              </span>
             </div>
-        </div>
 
+            <div
+              class="wrap-input100 validate-input input-field">
+              {{form.last_name}}
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="bi bi-person-fill" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div
+              class="wrap-input100 validate-input input-field">
+              {{form.username}}
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="bi bi-at" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div
+              class="wrap-input100 validate-input input-field">
+              {{form.email}}
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div
+              class="wrap-input100 validate-input input-field">
+              {{form.password1}}
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="bi bi-lock-fill" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div
+              class="wrap-input100 validate-input input-field">
+              {{form.password2}}
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="bi bi-check-all" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div class="container-login100-form-btn">
+              <button class="login100-form-btn">S'enregistrer</button>
+            </div>
+
+            {% comment %} <small class="text-muted">Je veux d'abord <a href="{% url 'core:home' pk.id user.username %}" class="txt2">visiter l'accueil</a></small> {% endcomment %}
+
+            <div class="text-center p-t-20">
+              <a class="txt2" href="{% url 'core:login' %}">
+                Connectez-vous à votre compte
+                <i class="bi bi-arrow-right m-l-5" aria-hidden="true"></i>
+              </a>
+            </div>
+          </form>
+        </div>
       </div>
+    </div>
+
+    <!--===============================================================================================-->
+    <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'vendor/tilt/tilt.jquery.min.js' %}"></script>
+    <script>
+      $(".js-tilt").tilt({
+        scale: 1.1,
+      });
+    </script>
+    <!--===============================================================================================-->
+    <!-- <script src="{% static 'js/auth/main.js' %}"></script> -->
   </body>
 </html>
