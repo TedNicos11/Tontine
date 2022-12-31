@@ -1,0 +1,71 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block add_head %}
+  {{ form.media }}
+{% endblock add_head %}
+
+<!-- Page title -->
+{% block title %}
+  Nouvelle tontine
+{% endblock title %}
+
+<!-- Body of the page -->
+{% block body %}
+<!-- ======= Contact Section ======= -->
+<section id="contact" class="contact">
+	<div class="container" data-aos="fade-up">
+
+	  <div class="section-header">
+		<h2>Nouvelle Tontine</h2>
+		<p>
+			<a href="{% url 'core:app' pk.id user.username %}"><i class="bi bi-arrow-left"></i> Retour</a> | Pour proceder, veuillez remplir les champs ci-dessous.
+		</p>
+	  </div>
+
+	  <div class="row gx-lg-0 gy-4">
+
+		<div class="col-lg-4">
+
+		  <div class="info-container d-flex flex-column align-items-center justify-content-center p-0">
+			<img src="{% static 'images/about.jpg' %}" alt="" class="img-fluid" style="width: 100%; height: inherit; object-fit: cover; border-radius: 10px 0 0 10px;">
+		  </div>
+
+		</div>
+
+		<div class="col-lg-8">
+		  <form method="POST" class="php-email-form">
+			{% csrf_token %}
+			<div class="row">
+				{{ form.errors }}
+			  <div class="col-md-6 form-group">
+				<label for="name">Nom de la Tontine</label>
+				{{ form.name }}
+				<!-- <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required> -->
+			  </div>
+			  <div class="col-md-6 form-group mt-3 mt-md-0">
+				<label for="members">Nombre de membres</label>
+				{{ form.number_of_members}}
+				<!-- <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required> -->
+			  </div>
+			</div>
+			<div class="form-group mt-3">
+				<label for="slogan">Slogan</label>
+				{{ form.slogan }}
+			  <!-- <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required> -->
+			</div>
+			<div class="form-group mt-3">
+				<label for="rules">Reglement Intérieure</label>
+				{{ form.rules }}
+			  <!-- <textarea class="form-control" name="message" rows="7" placeholder="Message" required></textarea> -->
+			</div>
+			<!-- <input type="submit" value="save"> -->
+			<div class="text-center"><button type="submit">Créer Ma tontine</button></div>
+		  </form>
+		</div><!-- End Contact Form -->
+
+	  </div>
+
+	</div>
+  </section><!-- End Contact Section -->
+{% endblock body %}

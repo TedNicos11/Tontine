@@ -6,10 +6,11 @@ from .views import *
 app_name = 'core'
 
 urlpatterns = [
-    path("", WelcomeView.as_view(), name="index"),
+    path('', WelcomeView.as_view(), name="index"),
     path('<str:pk>/<str:user>/', HomeView.as_view(), name="home"),
     path('register/', SignUpView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('app/<str:pk>/<str:user>/', AppView.as_view(), name='app'),
+    path("app/<str:pk>/<str:user>/new-tontine/", CreateTontine.as_view(), name="new_tontine")
 ]

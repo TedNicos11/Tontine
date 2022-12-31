@@ -17,9 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from core.views import page_not_found_view
 from django.conf import settings
-# from django.conf.urls import (handler400, handler403, handler404, handler500)
 from django.conf.urls.static import static
-# from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
