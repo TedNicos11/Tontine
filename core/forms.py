@@ -34,26 +34,26 @@ class UserRegisterForm(UserCreationForm):
             'password1': 'Mot de passe',
             'password2': 'Confirmation de mot de passe',
         }
-        
+
         widgets = {
             'first_name': TextInput(
                 attrs={
                     'placeholder': 'First Name (optional)',
                 }
             ),
-            
+
             'last_name': TextInput(
                 attrs={
                     'placeholder': 'Last Name (optional)',
                 }
             ),
-            
+
             'username': TextInput(
                 attrs={
                     'placeholder': 'Username',
                 }
             ),
-            
+
             'email': EmailInput(
                 attrs={
                     'placeholder': 'Email',
@@ -76,15 +76,16 @@ class UserRegisterForm(UserCreationForm):
         #     super(UserRegisterForm, self).__init__(*args, **kwargs)
         #     self.fields['password1'].widget = PasswordInput(attrs={'placeholder': 'Password'})
         #     self.fields['password2'].widget = PasswordInput(attrs={'placeholder': 'Confirm Password'})
-        
+
+
 class CreateTontineForm(forms.ModelForm):
     # Meta class
     class Meta:
-        
+
         model = Tontine
-        
+
         fields = ['name', 'number_of_members', 'slogan', 'rules']
-        
+
         widgets = {
             'name': TextInput(
                 attrs={
@@ -94,7 +95,7 @@ class CreateTontineForm(forms.ModelForm):
                     'placeholder': 'Nom de la tontine',
                 }
             ),
-            
+
             'number_of_members': NumberInput(
                 attrs={
                     'name': 'number_of_members',
@@ -104,7 +105,7 @@ class CreateTontineForm(forms.ModelForm):
                     'style': 'height: 47.5px'
                 }
             ),
-            
+
             'slogan': TextInput(
                 attrs={
                     'name': 'slogan',
@@ -113,7 +114,7 @@ class CreateTontineForm(forms.ModelForm):
                     'placeholder': 'Slogan',
                 }
             ),
-            
+
             'rules': Textarea(
                 attrs={
                     'name': 'rules',
