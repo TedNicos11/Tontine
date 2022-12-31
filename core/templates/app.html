@@ -1,3 +1,126 @@
-This is App page for <h1> {{request.user.id}}: {{request.user.username}}</h1>
-<a href="{% url 'core:logout' %}">logout</a>
-<a href="{% url 'core:home' pk.id user.username %}">back home</a>
+{% extends 'main.html' %}
+{% load humanize %}
+
+{% comment %} Page title {% endcomment %}
+{% block title %}My Savingz - {{ request.user.username }} {% endblock title %}
+
+{% comment %} Page Body {% endcomment %}
+{% block body %}
+<!-- ========== Start Hero Section ========== -->
+<section id="hero" class="hero">
+    <div class="container position-relative">
+        <div class="section-title">
+            <!-- Output Message message (Bootstrap-v5 only) -->
+            {% for msg in messages %}
+                {% if msg.level_tag == 'error' %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-octagon-fill"></i>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{msg.message}}
+                    </div>
+                {% else %}
+                    <div class="alert alert-{{msg.level_tag}} alert-dismissible fade show" role="alert">
+                    <i class="bi bi-{% if msg.level_tag == info %}info-circle-fill{% elif msg.level_tag == warning %}exclamation-triangle-fill{% else %}check-circle-fill{% endif %}"></i>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{msg.message}}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <h2>
+                <span>{{ greeting }}</span> {% firstof request.user.get_full_name request.user.username %}<span>.</span>
+            </h2>
+            <p>
+                On était ensemble dernièrement, <strong>{{ request.user.last_login | naturaltime }} </strong>               
+            </p>
+        </div>
+    </div>
+</section>
+<!-- ========== End Hero Section ========== -->
+
+<!-- ======= Our Services Section ======= -->
+<section id="services" class="services sections-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Mes Tontines</h2>
+            <p>
+                Envie de plus ? <a class="mx-3" href="{% url 'core:new_tontine' pk.id user.username %}">Créer une nouvelle tontine</a> | <a class="mx-3 btn disabled" href="">Voir toutes mes tontines</a>
+            </p>
+        </div>
+
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+
+            <!-- Pagination -->
+            {% comment %} <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-outline-dark" href="?page=1">&laquo; first</a>
+                        <a class="btn btn-outline-dark" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+            
+                    <button class="btn btn-dark disabled">
+                        <strong>Tontines</strong> : Page {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                    </button>
+            
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-outline-dark" href="?page={{ page_obj.next_page_number }}">next</a>
+                        <a class="btn btn-outline-dark" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div> {% endcomment %}
+
+            {% if page_obj.paginator.num_pages > 1 %}
+            <nav aria-label="Page navigation" class="navbar-dark">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link text-dark" href="?page=1" aria-label="Précédent">
+                            <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
+                            <span class="sr-only">Début</span>
+                        </a>
+                    </li> 
+                    {% endif %}
+            
+                    {% for n in page_obj.paginator.page_range %}
+                        {% if page_obj.number == n %}
+                        <li class="page-item active">
+                            <span class="page-link fw-bold bg-dark border-dark">Page {{ n }}</span>
+                        </li>
+                        {% elif n > page_obj.number|add:'-3' and n < page_obj.number|add:'3' %} 
+                        <li class="page-item"><a class="page-link text-dark" href="?page={{ n }}">{{ n }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+        
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link text-dark" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Suivant">
+                                <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
+                                <span class="sr-only">Fin</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+            {% for item in page_obj %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item position-relative">
+                        <div class="icon">
+                            <i class="bi bi-{{ item.id }}-circle"></i>
+                        </div>
+                        <h3>{{ item.name }}</h3>
+                        <p>
+                            {{ item.slogan.html | safe }}
+                        </p>
+                        <a href="#" class="readmore stretched-link">Poursuivre <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- End Service Item -->
+            {% endfor %}
+            
+        </div>
+
+    </div>
+</section><!-- End Our Services Section -->
+{% endblock body %}

@@ -33,6 +33,10 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+  {% block add_head %}
+    
+  {% endblock add_head %}
 </head>
 
 <body>
@@ -57,37 +61,158 @@
   <header id="header" class="header d-flex align-items-center">
 
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="{% url 'core:home' pk.id user.username %}" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="images/logo.png" alt=""> -->
         <h1>saving<span>z.</span></h1>
       </a>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          {% comment %} <li><a href="#portfolio">Portfolio</a></li> {% endcomment %}
-          <li><a href="#team">Team</a></li>
-          {% comment %} <li><a href="blog.html">Blog</a></li> {% endcomment %}
-          {% comment %} <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-            <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
-            </ul>
-          </li> {% endcomment %}
-          <li><a href="#contact">Contact</a></li>
+          {% if not request.user.is_authenticated %}
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#team">Team</a></li>
+            {% comment %} <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+              <ul>
+                <li><a href="#">Drop Down 1</a></li>
+                <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                  <ul>
+                    <li><a href="#">Deep Drop Down 1</a></li>
+                    <li><a href="#">Deep Drop Down 2</a></li>
+                    <li><a href="#">Deep Drop Down 3</a></li>
+                    <li><a href="#">Deep Drop Down 4</a></li>
+                    <li><a href="#">Deep Drop Down 5</a></li>
+                  </ul>
+                </li>
+                <li><a href="#">Drop Down 2</a></li>
+                <li><a href="#">Drop Down 3</a></li>
+                <li><a href="#">Drop Down 4</a></li>
+              </ul>
+            </li> {% endcomment %}
+            <li><a href="#contact">Contact</a></li>
+          {% else %}
+            <li class="dropdown">
+              <a href=""><span>Structure</span> <i class="bi bi-plus dropdown-indicator"></i></a>
+              <ul>
+                <li class="dropdown">
+                  <a href="#"><span>Tontines</span> <i class="bi bi-chevron-right dropdown-indicator"></i></a>
+                  <ul>
+                    <li><a href="#">Créer une tontine</a></li>
+                    <li><a href="#">Mettre à jour une tontine`</a></li>
+                    <li><a href="#">Rechercher une tontine</a></li>
+                    <li><a href="#">Dissoudre une tontine</a></li>
+                    <li><a href="#">Lister toutes les tontines</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown">
+                  <a href="#"><span>Membres</span> <i class="bi bi-chevron-right dropdown-indicator"></i></a>
+                  <ul>
+                    <li><a href="#">Ajouter un membre</a></li>
+                    <li><a href="#">Mettre à jour un membre</a></li>
+                    <li><a href="#">Rechercher un membre</a></li>
+                    <li><a href="#">Dissoudre une tontine</a></li>
+                    <li><a href="#">Lister les membres d'une tontine</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown">
+                  <a href="#"><span>Elections</span> <i class="bi bi-chevron-right dropdown-indicator"></i></a>
+                  <ul>
+                    <li><a href="#">Créer une tontine</a></li>
+                    <li><a href="#">Mettre à jour une élection</a></li>
+                    <li><a href="#">Proposer une nouvelle élection</a></li>
+                    <li><a href="#">Annuler une élection</a></li>
+                  </ul>
+                </li>
+
+                <!-- TODO: Ajouter la gestion des candidatures et des votes -->
+
+                <li class="dropdown">
+                  <a href="#"><span>Réunions</span> <i class="bi bi-chevron-right dropdown-indicator"></i></a>
+                  <ul>
+                    <li><a href="#">Créer une réunion</a></li>
+                    <li><a href="#">Fournir un programme de réunion</a></li>
+                    <li><a href="#">Envoyer une notification de réunion aux membres</a></li>
+                    <li><a href="#">Signer la liste de présence</a></li>
+                    <li><a href="#">Fournir la liste de présence d'une réunion donnée</a></li>
+                    <li><a href="#">Rechercher un rapport de réunion.</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href=""><span>Finances</span> <i class="bi bi-plus dropdown-indicator"></i></a>
+              <ul>
+                <li class="dropdown">
+                  <a href="#"><span>Contributions</span> <i class="bi bi-chevron-right dropdown-indicator"></i></a>
+                  <ul>
+                    <li><a href="#">Créer une contributions</a></li>
+                    <li><a href="#">Tirer le scrutin pour le cycle de contributions</a></li>
+                    <li><a href="#">Suspendre une contributions</a></li>
+                    <li><a href="#">Confirmer une contributions</a></li>
+                    <li><a href="#">Rechercher une contributions</a></li>
+                    <li><a href="#">Imprimer la liste des contributions</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown">
+                  <a href="#"><span>Prêts</span> <i class="bi bi-chevron-right dropdown-indicator"></i></a>
+                  <ul>
+                    <li><a href="#">Demander un prêt</a></li>
+                    <li><a href="#">Valider un prêt</a></li>
+                    <li><a href="#">Reporter un prêt</a></li>
+                    <li><a href="#">Vérifier l'état d'un prêt</a></li>
+                    <li><a href="#">Afficher la liste des prêts</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown">
+                  <a href="#"><span>Fonds</span> <i class="bi bi-chevron-right dropdown-indicator"></i></a>
+                  <ul>
+                    <li><a href="#">Définir un fonds</a></li>
+                    <li><a href="#">Mettre à jour un fond</a></li>
+                    <li><a href="#">Rechercher un fonds</a></li>
+                    <li><a href="#">Supprimer un fond</a></li>
+                    <li><a href="#">Afficher la liste des fonds</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown">
+                  <a href="#"><span>Mouvements d'actifs</span> <i class="bi bi-chevron-right dropdown-indicator"></i></a>
+                  <ul>
+                    <li><a href="#"> Appliquer un mouvement d'actifs</a></li>
+                    <li><a href="#"> Valider un mouvement d'actifs</a></li>
+                    <li><a href="#">Annuler un mouvement d'actifs</a></li>
+                    <li><a href="#">Donner la liste des mouvements d'actifs effectués</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href=""><span>Rapports</span> <i class="bi bi-plus dropdown-indicator"></i></a>
+              <ul>
+                <li class="dropdown">
+                  <a href="#"><span>Rapport de groupes</span> <i class="bi bi-chevron-right dropdown-indicator"></i></a>
+                  <ul>
+                    <li><a href="#">Afficher les statistiques</a></li>
+                    <li><a href="#">Imprimer les statistiques</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown">
+                  <a href="#"><span>Rapport des membres</span> <i class="bi bi-chevron-right dropdown-indicator"></i></a>
+                  <ul>
+                    <li><a href="#">Afficher les statistiques</a></li>
+                    <li><a href="#">Imprimer les statistiques</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          {% endif %}
           <!-- <li> -->
             {% if request.user.is_authenticated %}
               <a href="{% url 'core:app' pk.id user.username %}" class="btn-get-started ms-4">Hi, {{request.user.username}}</a>
@@ -117,7 +242,7 @@
     <div class="container">
       <div class="row gy-4">
         <div class="col-lg-5 col-md-12 footer-info">
-          <a href="{% if nbar == "home" %}#hero{% else %}{% url 'home' %}{% endif %}" class="logo d-flex align-items-center">
+          <a href="{% if nbar == 'home' %}#hero{% else %}{% url 'core:home' pk.id user.username %}{% endif %}" class="logo d-flex align-items-center">
             Saving<span>z.</span>
           </a>
           <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
@@ -132,7 +257,7 @@
         <div class="col-lg-2 col-6 footer-links">
           <h4>Liens Essentiels</h4>
           <ul>
-            <li><a href="{% if nbar == 'home' %}#hero{% else %}{% url 'home' %}{% endif %}">Accueil</a></li>
+            <li><a href="{% if nbar == 'home' %}#hero{% else %}{% url 'core:home' pk.id user.username %}{% endif %}">Accueil</a></li>
             <li><a href="#">A propos de nous</a></li>
             <li><a href="#">Services</a></li>
             <li><a href="#">Termes d'utilisation</a></li>
@@ -189,7 +314,6 @@
   <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
   <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
   <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
-  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
 
   <!-- Template Main JS File -->
   <script src="{% static 'js/main.js' %}"></script>
