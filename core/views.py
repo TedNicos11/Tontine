@@ -128,6 +128,23 @@ class AppView(LoginRequiredMixin, TemplateView):
         
         print(query)
 
+        # Get the current time
+        now = datetime.datetime.now()
+
+        # Determine whether it is morning or evening
+        if now.hour < 12:
+            greeting = "Bonjour"
+        else:
+            greeting = "Bonsoir"
+
+        # Get Tontine objects from DB
+        query = Tontine.objects.all()
+
+        # Paginator
+        paginator = Paginator(query, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
         context = {
             'nbar': 'home',
             'pk': pk,
@@ -223,6 +240,38 @@ class DetailTontine(LoginRequiredMixin, View):
             'query': query,
         }
         return render(request, self.template_name, context)
+
+
+class CreateTontine(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Tontine
+    # fields = ['name', 'number_of_members', 'slogan', 'rules']
+    template_name = 'tontine_form.html'
+    form_class = CreateTontineForm
+    success_message = "Tontine crée avec succes"
+    initial = {'key': 'value'}
+
+    def get(self, request, *args, **kwargs):
+        pk = get_object_or_404(User, id=self.kwargs["pk"])
+        user = get_object_or_404(User, username=self.kwargs["user"])
+        form = self.form_class(initial=self.initial)
+
+        context = {
+            'pk': pk,
+            'user': user,
+            'form': form
+        }
+        return render(request, self.template_name, context)
+
+    def get_success_url(self):
+        # Get the object that was created
+        user = self.request.user
+
+        # Use the reverse_lazy() function to reverse a URL pattern and return the URL as a string
+        success_url = reverse_lazy(
+            'core:app', kwargs={'pk': user.id, 'user': user.username})
+
+        return success_url
+
 
 # Custom 404 page
 

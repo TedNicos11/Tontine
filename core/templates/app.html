@@ -1,6 +1,9 @@
 {% extends 'main.html' %}
 {% load humanize %}
+<<<<<<< HEAD
 {% load static %}
+=======
+>>>>>>> b8cd0c8a5f748aa52ac5c5cae9b98c24da970e7e
 
 {% comment %} Page title {% endcomment %}
 {% block title %}My Savingz - {{ request.user.username }} {% endblock title %}
@@ -45,14 +48,22 @@
         <div class="section-header">
             <h2>Mes Tontines</h2>
             <p>
+<<<<<<< HEAD
                 <a class="mx-3" href="{% url 'core:new_tontine' pk.id user.username %}"><i class="bi bi-plus-square-dotted"></i> Créer une nouvelle tontine</a> | 
                 <a class="mx-3" href="{% url 'core:all_tontines' pk.id user.username %}">Voir toutes mes tontines <i class="bi bi-arrow-right"></i></a>
+=======
+                Envie de plus ? <a class="mx-3" href="{% url 'core:new_tontine' pk.id user.username %}">Créer une nouvelle tontine</a> | <a class="mx-3 btn disabled" href="">Voir toutes mes tontines</a>
+>>>>>>> b8cd0c8a5f748aa52ac5c5cae9b98c24da970e7e
             </p>
         </div>
 
         <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
 
+<<<<<<< HEAD
             <!-- 2nd Alternative Pagination -->
+=======
+            <!-- Pagination -->
+>>>>>>> b8cd0c8a5f748aa52ac5c5cae9b98c24da970e7e
             {% comment %} <div class="pagination">
                 <span class="step-links">
                     {% if page_obj.has_previous %}
@@ -71,7 +82,10 @@
                 </span>
             </div> {% endcomment %}
 
+<<<<<<< HEAD
             <!-- 1nd Alternative Pagination that displays only when the number of p ages >= 2 -->
+=======
+>>>>>>> b8cd0c8a5f748aa52ac5c5cae9b98c24da970e7e
             {% if page_obj.paginator.num_pages > 1 %}
             <nav aria-label="Page navigation" class="navbar-dark">
                 <ul class="pagination">
