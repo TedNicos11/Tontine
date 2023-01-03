@@ -1,6 +1,6 @@
 import datetime
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView, ListView, View
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -106,6 +106,27 @@ class AppView(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         pk = get_object_or_404(User, id=self.kwargs["pk"])
         user = get_object_or_404(User, username=self.kwargs["user"])
+        owner = self.request.user
+
+        # Get the current time
+        now = datetime.datetime.now()
+
+        # Determine whether it is morning or evening
+        if now.hour < 12:
+            greeting = "Bonjour"
+        else:
+            greeting = "Bonsoir"
+
+        # Get Tontine objects from DB
+        # query = Tontine.objects.filter(owner=user.id)
+        query = Tontine.objects.filter(owner_id=owner.id)
+
+        # Paginator
+        paginator = Paginator(query, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        
+        print(query)
 
         # Get the current time
         now = datetime.datetime.now()
@@ -131,6 +152,92 @@ class AppView(LoginRequiredMixin, TemplateView):
             'query': query,
             'greeting': greeting,
             'page_obj': page_obj
+        }
+        return render(request, self.template_name, context)
+
+
+class CreateTontine(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Tontine
+    # fields = ['name', 'number_of_members', 'slogan', 'rules']
+    template_name = 'tontine/tontine_form.html'
+    form_class = CreateTontineForm
+    success_message = "Tontine crée avec succes"
+    initial = {'key': 'value'}
+
+    def get(self, request, *args, **kwargs):
+        pk = get_object_or_404(User, id=self.kwargs["pk"])
+        user = get_object_or_404(User, username=self.kwargs["user"])
+        form = self.form_class(initial=self.initial)
+
+        context = {
+            'pk': pk,
+            'user': user,
+            'form': form
+        }
+        return render(request, self.template_name, context)
+    
+    def form_valid(self, form):
+        # Get the current user
+        owner = self.request.user
+
+        # Set the default value of the user field to the current user
+        form.instance.owner = owner
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        # Get the object that was created
+        user = self.request.user
+
+        # Use the reverse_lazy() function to reverse a URL pattern and return the URL as a string
+        success_url = reverse_lazy(
+            'core:app', kwargs={'pk': user.id, 'user': user.username})
+
+        return success_url
+
+class ListTontine(LoginRequiredMixin, View):
+    template_name = 'tontine/tontine_all.html'
+    context_object_name = 'tontines'
+    
+    def get(self, request, *args, **kwargs):
+        pk = get_object_or_404(User, id=self.kwargs["pk"])
+        user = get_object_or_404(User, username=self.kwargs["user"])
+        
+        # Query user's tontines
+        owner = self.request.user
+        query = Tontine.objects.filter(owner_id=owner.id)
+
+        context = {
+            'pk': pk,
+            'user': user,
+            'query': query,
+        }
+        return render(request, self.template_name, context)
+    
+    def get_queryset(self):
+        return Tontine.objects.filter(owner_id=self.request.user.id)
+    
+class DetailTontine(LoginRequiredMixin, View):
+    template_name = 'tontine/tontine_details.html'
+    
+    def get(self, request, *args, **kwargs):
+        pk = get_object_or_404(User, id=self.kwargs["pk"])
+        user = get_object_or_404(User, username=self.kwargs["user"])
+        tont_id = get_object_or_404(Tontine, id=self.kwargs["tont_id"])
+        tontine = get_object_or_404(Tontine, name=self.kwargs["tontine"])
+        print(tontine)
+        
+        # Query user's tontines
+        owner = self.request.user
+        # query = Tontine.objects.filter(owner_id=owner.id, id=tont_id)
+        query = Tontine.objects.get(owner_id=owner.id, id=tont_id.id)
+
+        context = {
+            'pk': pk,
+            'user': user,
+            'tont_id': tont_id,
+            'tontine': tontine,
+            'query': query,
         }
         return render(request, self.template_name, context)
 
