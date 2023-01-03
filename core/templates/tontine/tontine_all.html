@@ -1,0 +1,47 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% comment %} Page title {% endcomment %}
+{% block title %}Tontines - {{ request.user.username }} {% endblock title %}
+
+{% comment %} Page Body {% endcomment %}
+{% block body %}
+<!-- ======= Our Services Section ======= -->
+<section id="services" class="services sections-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Toutes Mes Tontines</h2>
+            <p>
+                <a class="mx-3" href="{% url 'core:app' pk.id user.username %}"><i class="bi bi-arrow-left"></i> Accueil</a> |
+                <a class="mx-3" href="{% url 'core:new_tontine' pk.id user.username %}">Créer une nouvelle tontine <i class="bi bi-plus-square-dotted"></i></a>
+            </p>
+        </div>
+
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+
+            {% for tontine in query %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item position-relative">
+                        <div class="icon">
+                            <h1 title="Tontine #{{ forloop.counter }} - {{ tontine.name }}"><i>#{{ forloop.counter }}</i></h1>
+                            {% comment %} <i class="bi bi-{{ forloop.counter }}-circle"></i> {% endcomment %}
+                        </div>
+                        <h3>{{ tontine.name }}</h3>
+                        <p class="fw-bold">
+                            {{ tontine.number_of_members }} membres
+                        </p>
+                        <p>
+                            {{ tontine.slogan.html|safe }}
+                        </p>
+                        <a href="{% url 'core:detail_tontine' pk.id user.username tontine.id tontine.name %}" class="readmore stretched-link">Poursuivre <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- End Service Item -->
+            {% endfor %}
+            
+        </div>
+
+    </div>
+</section><!-- End Our Services Section -->
+{% endblock body %}

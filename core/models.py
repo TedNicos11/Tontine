@@ -1,10 +1,11 @@
 from django.db import models
 from django_quill.fields import QuillField
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 class Tontine(models.Model):
-    
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     name = models.CharField(max_length = 150, blank=False, null=False)
     creation_date = models.DateTimeField(auto_now=True, auto_now_add=False)
     number_of_members = models.PositiveBigIntegerField(blank=False, null=False)

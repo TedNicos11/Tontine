@@ -62,17 +62,15 @@
 
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
       <a href="{% url 'core:home' pk.id user.username %}" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="images/logo.png" alt=""> -->
         <h1>saving<span>z.</span></h1>
       </a>
       <nav id="navbar" class="navbar">
         <ul>
           {% if not request.user.is_authenticated %}
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#about">About</a></li>
+            <li><a href="#hero">Accueil</a></li>
+            <li><a href="#about">A Propos</a></li>
             <li><a href="#services">Services</a></li>
-            <li><a href="#team">Team</a></li>
+            <li><a href="#team">Equipe</a></li>
             {% comment %} <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
               <ul>
                 <li><a href="#">Drop Down 1</a></li>
@@ -98,11 +96,11 @@
                 <li class="dropdown">
                   <a href="#"><span>Tontines</span> <i class="bi bi-chevron-right dropdown-indicator"></i></a>
                   <ul>
-                    <li><a href="#">Créer une tontine</a></li>
-                    <li><a href="#">Mettre à jour une tontine`</a></li>
+                    <li><a href="{% url 'core:new_tontine' pk.id user.username %}">Créer une tontine</a></li>
+                    <li><a href="#">Mettre à jour une tontine</a></li>
                     <li><a href="#">Rechercher une tontine</a></li>
                     <li><a href="#">Dissoudre une tontine</a></li>
-                    <li><a href="#">Lister toutes les tontines</a></li>
+                    <li><a href="{% url 'core:all_tontines' pk.id user.username %}">Lister toutes les tontines</a></li>
                   </ul>
                 </li>
 
