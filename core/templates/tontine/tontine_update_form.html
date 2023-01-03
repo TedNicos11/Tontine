@@ -7,7 +7,7 @@
 
 <!-- Page title -->
 {% block title %}
-  Nouvelle tontine
+  Mise a jour - {{ query.name }}
 {% endblock title %}
 
 <!-- Body of the page -->
@@ -17,9 +17,9 @@
 	<div class="container" data-aos="fade-up">
 
 	  <div class="section-header">
-		<h2>Nouvelle Tontine</h2>
+		<h2>Mise à jour</h2>
 		<p>
-			<a href="{% url 'core:app' pk.id user.username %}"><i class="bi bi-arrow-left"></i> Retour</a> | Pour proceder, veuillez remplir les champs ci-dessous.
+			<a href="{% url 'core:app' pk.id user.username %}"><i class="bi bi-arrow-left"></i> Mon dashboard</a> | Pour proceder, veuillez remplir les champs ci-dessous.
 		</p>
 	  </div>
 
@@ -34,7 +34,7 @@
 		</div>
 
 		<div class="col-lg-8">
-		  <form method="POST" class="php-email-form">
+		  <form method="GET" class="php-email-form">
 			{% csrf_token %}
 			<div class="row">
 				{{ form.errors }}
@@ -60,7 +60,7 @@
 			  <!-- <textarea class="form-control" name="message" rows="7" placeholder="Message" required></textarea> -->
 			</div>
 			<!-- <input type="submit" value="save"> -->
-			<div class="text-center"><button type="submit">Créer Ma tontine</button></div>
+			<div class="text-center"><button type="submit">Mettre à jour</button></div>
 		  </form>
 		</div><!-- End Contact Form -->
 
