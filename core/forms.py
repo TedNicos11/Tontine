@@ -124,3 +124,10 @@ class CreateTontineForm(forms.ModelForm):
                 }
             ),
         }
+
+class UpdateTontineForm(forms.ModelForm):
+    # Meta
+    class Meta:
+        model = Tontine
+        fields = ['name', 'number_of_members', 'slogan', 'rules']
+        
