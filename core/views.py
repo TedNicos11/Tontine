@@ -99,7 +99,7 @@ class LogoutView(View):
 # App Views
 
 
-class AppView(LoginRequiredMixin, TemplateView):
+class AppView(LoginRequiredMixin, View):
     template_name = 'app.html'
     login_url = '/login/'
 
@@ -110,35 +110,16 @@ class AppView(LoginRequiredMixin, TemplateView):
 
         # Get the current time
         now = datetime.datetime.now()
-
-        # Determine whether it is morning or evening
-        if now.hour < 12:
-            greeting = "Bonjour"
-        else:
-            greeting = "Bonsoir"
-
-        # Get Tontine objects from DB
-        # query = Tontine.objects.filter(owner=user.id)
+        
+         # Query user's tontines
+        owner = self.request.user
         query = Tontine.objects.filter(owner_id=owner.id)
 
-        # Paginator
-        paginator = Paginator(query, 6)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-        
-        print(query)
-
-        # Get the current time
-        now = datetime.datetime.now()
-
         # Determine whether it is morning or evening
         if now.hour < 12:
             greeting = "Bonjour"
         else:
             greeting = "Bonsoir"
-
-        # Get Tontine objects from DB
-        query = Tontine.objects.all()
 
         # Paginator
         paginator = Paginator(query, 6)
@@ -146,7 +127,6 @@ class AppView(LoginRequiredMixin, TemplateView):
         page_obj = paginator.get_page(page_number)
 
         context = {
-            'nbar': 'home',
             'pk': pk,
             'user': user,
             'query': query,
