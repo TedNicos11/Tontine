@@ -18,7 +18,6 @@ from .forms import *
 
 # Create your views here
 
-
 class WelcomeView(TemplateView):
     template_name = 'welcome.html'
 
@@ -123,7 +122,8 @@ class AppView(LoginRequiredMixin, View):
             greeting = "Bonsoir"
 
         # Paginator
-        paginator = Paginator(query, 6)
+        items_per_page = 6
+        paginator = Paginator(query, items_per_page)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
@@ -132,14 +132,14 @@ class AppView(LoginRequiredMixin, View):
             'user': user,
             'query': query,
             'greeting': greeting,
-            'page_obj': page_obj
+            'page_obj': page_obj,
+            'items_per_page': items_per_page
         }
         return render(request, self.template_name, context)
 
 
 class CreateTontine(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Tontine
-    # fields = ['name', 'number_of_members', 'slogan', 'rules']
     template_name = 'tontine/tontine_create_form.html'
     form_class = CreateTontineForm
     success_message = "Tontine crée avec succes"
@@ -205,7 +205,6 @@ class DetailTontine(LoginRequiredMixin, View):
        
         # Query user's tontines
         owner = self.request.user
-        # query = Tontine.objects.filter(owner_id=owner.id, id=tont_id)
         query = Tontine.objects.get(owner_id=owner.id, id=tont_id.id)
 
         context = {
@@ -221,15 +220,82 @@ class UpdateTontine(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Tontine
     # fields = ['name', 'number_of_members', 'slogan', 'rules']
     template_name = 'tontine/tontine_update_form.html'
-    success_message = "Tontine mise a jour avec succes"
+    success_message = "Tontine mise à jour avec succes"
     form_class = CreateTontineForm
-    initial = {'key': 'value'}
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pk'] = get_object_or_404(User, id=self.kwargs["pk"])
+        context['user'] = get_object_or_404(User, username=self.kwargs["user"])
+        context['tont_id'] = get_object_or_404(Tontine, id=self.kwargs["tont_id"])
+        context['tontine'] = get_object_or_404(Tontine, name=self.kwargs["tontine"])
+        return context
     
     def get_object(self, queryset=None):
-        pass
+        object = Tontine.objects.get(id=self.kwargs['tont_id'])
+        return object
+    
+    def form_valid(self, form):
+        # Save the form data
+        form.save()
+        
+        # Get the object's id and name
+        object_id = self.kwargs['tont_id']
+        object_name = self.kwargs['tontine']
+        
+        # success message
+        message_out_success = format_html(
+            f'<strong>{object_name}</strong> mise à jour avec succès.'
+        )
+        messages.success(
+            self.request,
+            message_out_success
+        )
+        
+        # Redirect to a different URL
+        return redirect(reverse_lazy('core:detail_tontine', kwargs={'pk': self.request.user.id, 'user': self.request.user.username, 'tont_id': object_id, 'tontine': object_name}))
+        
     
 class DeleteTontine(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
-    pass
+    model = Tontine
+    template_name = 'tontine/tontine_confirm_delete.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pk'] = get_object_or_404(User, id=self.kwargs["pk"])
+        context['user'] = get_object_or_404(User, username=self.kwargs["user"])
+        context['tont_id'] = get_object_or_404(Tontine, id=self.kwargs["tont_id"])
+        context['tontine'] = get_object_or_404(Tontine, name=self.kwargs["tontine"])
+        context['query'] = Tontine.objects.get(owner_id=self.request.user.id, id=context['tont_id'].id)
+        return context
+    
+    def get_object(self, queryset=None):
+        object = Tontine.objects.get(id=self.kwargs['tont_id'])
+        return object
+    
+    def get_success_url(self):
+        # Get the object's user that was created
+        user = self.request.user
+
+        # Use the reverse_lazy() function to reverse a URL pattern and return the URL as a string
+        success_url = reverse_lazy(
+            'core:all_tontines', kwargs={'pk': user.id, 'user': user.username})
+
+        return success_url
+    
+    def form_valid(self, form):
+        # Get the object's id and name
+        object_name = self.kwargs['tontine']
+        
+        # success message
+        message_out_success = format_html(
+            f'<strong>{object_name}</strong> a bien été supprimé de vos tontines.'
+        )
+        messages.success(
+            self.request,
+            message_out_success
+        )
+        return super().form_valid(form)
     
 # Custom 404 page
 
