@@ -1,5 +1,6 @@
 {% extends 'main.html' %}
 {% load static %}
+{% load humanize %}
 
 {% comment %} Page title {% endcomment %}
 {% block title %}Detail Sur {{ tontine.name }}{% endblock title %}
@@ -14,6 +15,22 @@
         <div class="container position-relative">
           <div class="row d-flex justify-content-center">
             <div class="col-lg-6 text-center">
+              <!-- Output Message message (Bootstrap-v5 only) -->
+              {% for msg in messages %}
+                {% if msg.level_tag == 'error' %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-octagon-fill"></i>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{msg.message}}
+                    </div>
+                {% else %}
+                    <div class="alert alert-{{msg.level_tag}} alert-dismissible fade show" role="alert">
+                    <i class="bi bi-{% if msg.level_tag == info %}info-circle-fill{% elif msg.level_tag == warning %}exclamation-triangle-fill{% else %}check-circle-fill{% endif %}"></i>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{msg.message}}
+                    </div>
+                {% endif %}
+              {% endfor %}
               <small class="text-white-50">Details de la tontine:</small>
               <h2>
                 {% comment %} {% for item in query %}{{ item.name }}{% endfor %} {% endcomment %}
@@ -22,8 +39,8 @@
               <p>
                 {{ query.slogan.html | safe }}
               </p>
-              <a href="{% url 'core:update_tontine' pk.id user.username query.id query.name %}" class="mx-3 btn btn-outline-dark"><i class="bi bi-pencil-fill"></i> Modifier cette tontine</a> |
-              <a href="" class="mx-3 btn btn-danger"><i class="bi bi-trash-fill"></i> Supprimer cette tontine</a>
+              <a href="{% url 'core:update_tontine' pk.id user.username tont_id.id tontine.name %}" class="mx-3 btn btn-outline-dark"><i class="bi bi-pencil-fill"></i> Modifier cette tontine</a> |
+              <a href="{% url 'core:delete_tontine' pk.id user.username tont_id.id tontine.name %}" type="button" class="mx-3 btn btn-danger"><i class="bi bi-trash-fill"></i> Supprimer cette tontine</a>
             </div>
           </div>
         </div>
@@ -57,9 +74,9 @@
 
               <div class="meta-top">
                 <ul>
-                  <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="">John Doe</a></li>
-                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href=""><time datetime="2020-01-01">Jan 1, 2022</time></a></li>
-                  <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="">12 Comments</a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="">{% firstof request.user.get_full_name request.user.username %}</a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href=""><time datetime="2020-01-01">{{ query.creation_date }}</time></a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="">{{ query.number_of_members }} membres</a></li>
                 </ul>
               </div><!-- End meta top -->
 

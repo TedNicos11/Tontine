@@ -19,7 +19,8 @@
 	  <div class="section-header">
 		<h2>Mise à jour</h2>
 		<p>
-			<a href="{% url 'core:app' pk.id user.username %}"><i class="bi bi-arrow-left"></i> Mon dashboard</a> | Pour proceder, veuillez remplir les champs ci-dessous.
+			<a href="{% url 'core:detail_tontine' pk.id user.username tont_id.id tontine.name %}"><i class="bi bi-arrow-left"></i> Details </a>
+			 | Pour proceder, veuillez modifier les valeurs des champs souhaités.
 		</p>
 	  </div>
 
@@ -28,13 +29,13 @@
 		<div class="col-lg-4">
 
 		  <div class="info-container d-flex flex-column align-items-center justify-content-center p-0">
-			<img src="{% static 'images/about.jpg' %}" alt="" class="img-fluid" style="width: 100%; height: inherit; object-fit: cover; border-radius: 10px 0 0 10px;">
+			<img src="{% static 'images/about-2.jpg' %}" alt="" class="img-fluid" style="width: 100%; height: inherit; object-fit: cover; border-radius: 10px 0 0 10px;">
 		  </div>
 
 		</div>
 
 		<div class="col-lg-8">
-		  <form method="GET" class="php-email-form">
+		  <form method="POST" class="php-email-form">
 			{% csrf_token %}
 			<div class="row">
 				{{ form.errors }}
