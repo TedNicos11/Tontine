@@ -1,20 +1,19 @@
 import datetime
-from django.shortcuts import render, get_object_or_404, redirect, HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
-from django.views.generic import TemplateView, ListView, View
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import TemplateView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.html import format_html
 from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
-from django.utils.safestring import mark_safe
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.utils.text import slugify
-from .models import *
-from .forms import *
+from .models import Tontine
+from .forms import UserRegisterForm, CreateTontineForm
 
 # Create your views here
 
@@ -229,6 +228,8 @@ class UpdateTontine(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         context['user'] = get_object_or_404(User, username=self.kwargs["user"])
         context['tont_id'] = get_object_or_404(Tontine, id=self.kwargs["tont_id"])
         context['tontine'] = get_object_or_404(Tontine, name=self.kwargs["tontine"])
+        context['object'] = Tontine.objects.get(owner_id=self.request.user.id, id=context['tont_id'].id)
+
         return context
     
     def get_object(self, queryset=None):

@@ -17,7 +17,7 @@
 	<div class="container" data-aos="fade-up">
 
 	  <div class="section-header">
-		<h2>Mise à jour</h2>
+		<h2>Mettre à jour</h2>
 		<p>
 			<a href="{% url 'core:detail_tontine' pk.id user.username tont_id.id tontine.name %}"><i class="bi bi-arrow-left"></i> Details </a>
 			 | Pour proceder, veuillez modifier les valeurs des champs souhaités.
@@ -37,6 +37,19 @@
 		<div class="col-lg-8">
 		  <form method="POST" class="php-email-form">
 			{% csrf_token %}
+			<div class="row">
+			  <div class="col-md-6 form-group">
+				<label for="name" class="text-muted">Identifiant  (lecture seule)</label>
+				<input type="text" class="form-control rounded border-success text-muted" value="{{ tont_id.id }}" readonly>
+				<!-- <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required> -->
+			  </div>
+			  <div class="col-md-6 form-group mt-3 mt-md-0">
+				<label for="members" class="text-muted">Date/Heure de création (lecture seule)</label>
+				<input type="text" class="form-control rounded border-success text-muted" value="{{ object.creation_date }}" readonly>
+				<!-- <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required> -->
+			  </div>
+			</div>
+
 			<div class="row">
 				{{ form.errors }}
 			  <div class="col-md-6 form-group">
