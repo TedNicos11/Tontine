@@ -140,6 +140,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL ='/login/'
 LOGOUT_REDIRECT_URL = '/login/'
 
+# Django QUILL Editor
+QUILL_URL_FOR_LINKS = False
+
 # Override production variables if DJANGO_DEVELOPMENT env variable is true
 # if os.getenv('DJANGO_DEVELOPMENT') == 'true':
 #     from django.conf import *

@@ -1,5 +1,5 @@
 from django import forms
-from django.forms.widgets import TextInput, NumberInput, EmailInput, Textarea, PasswordInput, FileInput
+from django.forms.widgets import TextInput, NumberInput, EmailInput, Textarea, PasswordInput, FileInput, DateInput
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Tontine
@@ -124,10 +124,4 @@ class CreateTontineForm(forms.ModelForm):
                 }
             ),
         }
-
-class UpdateTontineForm(forms.ModelForm):
-    # Meta
-    class Meta:
-        model = Tontine
-        fields = ['name', 'number_of_members', 'slogan', 'rules']
         

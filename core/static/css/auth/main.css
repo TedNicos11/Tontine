@@ -213,6 +213,13 @@ iframe {
   padding: 50px 130px 10px 95px;
 }
 
+@media screen and (max-width: 768px){
+  .wrap-login100-register {
+  padding: 15px 10px;
+  width: 100%;
+  }
+}
+
 /*------------------------------------------------------------------
 [  ]*/
 .login100-pic {
@@ -255,6 +262,17 @@ iframe {
   border-radius: 25px;
   padding: 0 30px 0 68px;
   box-shadow: 0 5px 10px #ffffff50;
+}
+
+@media screen and (max-width: 768px) {
+  .login100-form .input-field{
+    /* width: 300px; */
+    margin: 10pt auto;
+  }
+
+  .login100-form .input-field input {
+    width: calc(100% - 80px);
+  }
 }
 
 .login100-form .input-field input {
