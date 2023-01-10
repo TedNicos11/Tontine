@@ -199,24 +199,26 @@ class DetailTontine(LoginRequiredMixin, View):
     template_name = 'tontine/tontine_details.html'
     
     def get(self, request, *args, **kwargs):
-        pk = get_object_or_404(User, id=self.kwargs["pk"])
-        user = get_object_or_404(User, username=self.kwargs["user"])
+        # pk = get_object_or_404(User, id=self.kwargs["pk"])
+        # user = get_object_or_404(User, username=self.kwargs["user"])
         tont_id = get_object_or_404(Tontine, id=self.kwargs["tont_id"])
         tontine = get_object_or_404(Tontine, slug=self.kwargs["tontine"])
        
         # Query user's tontines
         owner = self.request.user
-        query = Tontine.objects.get(owner_id=owner.id, id=tont_id.id)
+        query = Tontine.objects.get(id=tont_id.id)
+        
+        # Manage joined members by getting current tontine and user
 
         context = {
-            'pk': pk,
-            'user': user,
+            'pk': owner,
+            'user': owner,
             'tont_id': tont_id,
             'tontine': tontine,
             'query': query,
         }
         return render(request, self.template_name, context)
-
+    
 class UpdateTontine(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Tontine
     template_name = 'tontine/tontine_update_form.html'
