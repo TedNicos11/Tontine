@@ -51,7 +51,7 @@
                             <li class="list-group-item">Capacité : {{ tontine.number_of_members }} membres</li>
                             <li class="list-group-item">Crée le : {{ tontine.creation_date }} ({{ tontine.creation_date|naturaltime }})</li>
                         </ul>
-                        <a href="{% url 'core:detail_tontine' pk.id user.username tontine.id tontine.slug %}" class="readmore stretched-link">Rejoindre <i class="bi bi-arrow-right"></i></a>
+                        <a href="{% url 'core:detail_tontine' tontine.id tontine.slug %}" class="readmore stretched-link">Rejoindre <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
                 <!-- End Service Item -->

@@ -39,8 +39,13 @@
               <p>
                 {{ query.slogan.html | safe }}
               </p>
-              <a href="{% url 'core:update_tontine' pk.id user.username tont_id.id tontine.slug %}" class="mx-3 my-2 btn btn-outline-dark"><i class="bi bi-pencil-fill"></i> Modifier cette tontine</a><span class="d-none d-lg-block"> |</span>
-              <a href="{% url 'core:delete_tontine' pk.id user.username tont_id.id tontine.slug %}" type="button" class="mx-3 my-2 btn btn-danger"><i class="bi bi-trash-fill"></i> Supprimer cette tontine</a>
+              {% if query.id == request.user.id %}
+                <a href="{% url 'core:update_tontine' pk.id user.username tont_id.id tontine.slug %}" class="mx-3 my-2 btn btn-outline-dark"><i class="bi bi-pencil-fill"></i> Modifier cette tontine</a><span class="d-none d-lg-block"> |</span>
+                <a href="{% url 'core:delete_tontine' pk.id user.username tont_id.id tontine.slug %}" type="button" class="mx-3 my-2 btn btn-danger"><i class="bi bi-trash-fill"></i> Supprimer cette tontine</a>
+              {% else %}
+              {% comment %} TODO: Check if user belongs to this group {% endcomment %}
+                <a href="" type="button" class="mx-3 my-2 btn btn-info"><i class="bi bi-trash-fill"></i> Rejoindre cette tontine</a>
+              {% endif %}
             </div>
           </div>
         </div>
