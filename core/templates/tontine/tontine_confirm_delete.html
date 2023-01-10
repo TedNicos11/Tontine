@@ -108,7 +108,7 @@
                 {% csrf_token %}
                 <button type="submit" class="accept" >Supprimer</button>
               </form>
-              <a href="{% url 'core:detail_tontine' pk.id user.username query.id query.name %}" class="cancel">Annuler</a>
+              <a href="{% url 'core:detail_tontine' pk.id user.username query.id query.slug %}" class="cancel">Annuler</a>
             </div>
           </div>
     </body>

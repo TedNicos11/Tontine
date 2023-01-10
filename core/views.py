@@ -113,6 +113,7 @@ class AppView(LoginRequiredMixin, View):
          # Query user's tontines
         owner = self.request.user
         query = Tontine.objects.filter(owner_id=owner.id)
+        query_all = Tontine.objects.all()
 
         # Determine whether it is morning or evening
         if now.hour < 12:
@@ -132,7 +133,8 @@ class AppView(LoginRequiredMixin, View):
             'query': query,
             'greeting': greeting,
             'page_obj': page_obj,
-            'items_per_page': items_per_page
+            'items_per_page': items_per_page,
+            'query_all': query_all,
         }
         return render(request, self.template_name, context)
 
@@ -200,7 +202,7 @@ class DetailTontine(LoginRequiredMixin, View):
         pk = get_object_or_404(User, id=self.kwargs["pk"])
         user = get_object_or_404(User, username=self.kwargs["user"])
         tont_id = get_object_or_404(Tontine, id=self.kwargs["tont_id"])
-        tontine = get_object_or_404(Tontine, name=self.kwargs["tontine"])
+        tontine = get_object_or_404(Tontine, slug=self.kwargs["tontine"])
        
         # Query user's tontines
         owner = self.request.user
@@ -217,7 +219,6 @@ class DetailTontine(LoginRequiredMixin, View):
 
 class UpdateTontine(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Tontine
-    # fields = ['name', 'number_of_members', 'slogan', 'rules']
     template_name = 'tontine/tontine_update_form.html'
     success_message = "Tontine mise à jour avec succes"
     form_class = CreateTontineForm
@@ -227,7 +228,7 @@ class UpdateTontine(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         context['pk'] = get_object_or_404(User, id=self.kwargs["pk"])
         context['user'] = get_object_or_404(User, username=self.kwargs["user"])
         context['tont_id'] = get_object_or_404(Tontine, id=self.kwargs["tont_id"])
-        context['tontine'] = get_object_or_404(Tontine, name=self.kwargs["tontine"])
+        context['tontine'] = get_object_or_404(Tontine, slug=self.kwargs["tontine"])
         context['object'] = Tontine.objects.get(owner_id=self.request.user.id, id=context['tont_id'].id)
 
         return context
@@ -266,7 +267,7 @@ class DeleteTontine(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         context['pk'] = get_object_or_404(User, id=self.kwargs["pk"])
         context['user'] = get_object_or_404(User, username=self.kwargs["user"])
         context['tont_id'] = get_object_or_404(Tontine, id=self.kwargs["tont_id"])
-        context['tontine'] = get_object_or_404(Tontine, name=self.kwargs["tontine"])
+        context['tontine'] = get_object_or_404(Tontine, slug=self.kwargs["tontine"])
         context['query'] = Tontine.objects.get(owner_id=self.request.user.id, id=context['tont_id'].id)
         return context
     
@@ -297,6 +298,24 @@ class DeleteTontine(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
             message_out_success
         )
         return super().form_valid(form)
+    
+class JoinTontine(LoginRequiredMixin, SuccessMessageMixin, View):
+    template_name = 'tontine/tontine_join.html'
+    
+    def get(self, request, *args, **kwargs):
+        pk = get_object_or_404(User, id=self.kwargs["pk"])
+        user = get_object_or_404(User, username=self.kwargs["user"])
+        
+        # Get all Tontines from the DB
+        query = Tontine.objects.all()
+
+        context = {
+            'pk': pk,
+            'user': user,
+            'query': query,
+        }
+        return render(request, self.template_name, context)
+    
     
 # Custom 404 page
 

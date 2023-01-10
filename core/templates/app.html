@@ -130,7 +130,7 @@
                             <p>
                                 {{ item.slogan.html|safe }}
                             </p>
-                            <a href="{% url 'core:detail_tontine' pk.id user.username item.id item.name %}" class="readmore stretched-link">Poursuivre <i class="bi bi-arrow-right"></i></a>
+                            <a href="{% url 'core:detail_tontine' pk.id user.username item.id item.slug %}" class="readmore stretched-link">Poursuivre <i class="bi bi-arrow-right"></i></a>
                         </div>
                     </div>
                     <!-- End Service Item -->

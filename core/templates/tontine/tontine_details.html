@@ -39,8 +39,8 @@
               <p>
                 {{ query.slogan.html | safe }}
               </p>
-              <a href="{% url 'core:update_tontine' pk.id user.username tont_id.id tontine.name %}" class="mx-3 my-2 btn btn-outline-dark"><i class="bi bi-pencil-fill"></i> Modifier cette tontine</a><span class="d-none d-lg-block"> |</span>
-              <a href="{% url 'core:delete_tontine' pk.id user.username tont_id.id tontine.name %}" type="button" class="mx-3 my-2 btn btn-danger"><i class="bi bi-trash-fill"></i> Supprimer cette tontine</a>
+              <a href="{% url 'core:update_tontine' pk.id user.username tont_id.id tontine.slug %}" class="mx-3 my-2 btn btn-outline-dark"><i class="bi bi-pencil-fill"></i> Modifier cette tontine</a><span class="d-none d-lg-block"> |</span>
+              <a href="{% url 'core:delete_tontine' pk.id user.username tont_id.id tontine.slug %}" type="button" class="mx-3 my-2 btn btn-danger"><i class="bi bi-trash-fill"></i> Supprimer cette tontine</a>
             </div>
           </div>
         </div>
