@@ -1,8 +1,9 @@
 {% extends 'main.html' %}
+{% load humanize %}
 {% load static %}
 
 {% comment %} Page title {% endcomment %}
-{% block title %}Tontines - {{ request.user.username }} {% endblock title %}
+{% block title %}My Savingz - les tontines {% endblock title %}
 
 {% comment %} Page Body {% endcomment %}
 {% block body %}
@@ -11,7 +12,7 @@
     <div class="container" data-aos="fade-up">
 
         <div class="section-header">
-            <h2>Toutes Mes Tontines</h2>
+            <h2>Toutes les Tontines sur Savingz.</h2>
             <p>
                 <a class="mx-3" href="{% url 'core:app' pk.id user.username %}"><i class="bi bi-arrow-left"></i> Accueil</a> |
                 <a class="mx-3" href="{% url 'core:new_tontine' pk.id user.username %}">Créer une nouvelle tontine <i class="bi bi-plus-square-dotted"></i></a>
@@ -41,16 +42,16 @@
                     <div class="service-item position-relative">
                         <div class="icon">
                             <h1 title="Tontine #{{ forloop.counter }} - {{ tontine.name }}"><i>#{{ forloop.counter }}</i></h1>
-                            {% comment %} <i class="bi bi-{{ forloop.counter }}-circle"></i> {% endcomment %}
                         </div>
                         <h3>{{ tontine.name }}</h3>
-                        <p class="fw-bold">
-                            {{ tontine.number_of_members }} membres
-                        </p>
                         <p>
-                            {{ tontine.slogan.html|safe }}
+                            Crée par <span class="fw-bold">{% firstof tontine.owner.get_full_name tontine.owner.username %}</span>
                         </p>
-                        <a href="{% url 'core:detail_tontine' pk.id user.username tontine.id tontine.slug %}" class="readmore stretched-link">Poursuivre <i class="bi bi-arrow-right"></i></a>
+                        <ul class="list-group">
+                            <li class="list-group-item">Capacité : {{ tontine.number_of_members }} membres</li>
+                            <li class="list-group-item">Crée le : {{ tontine.creation_date }} ({{ tontine.creation_date|naturaltime }})</li>
+                        </ul>
+                        <a href="{% url 'core:detail_tontine' pk.id user.username tontine.id tontine.slug %}" class="readmore stretched-link">Rejoindre <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
                 <!-- End Service Item -->

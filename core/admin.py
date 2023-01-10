@@ -4,7 +4,6 @@ from .models import Tontine
 # Register your models here.
 
 # Admin Models
-# @admin.register(Tontine)
 class TontineAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'creation_date', 'number_of_members']
     search_fields = ['name', 'creation_date']

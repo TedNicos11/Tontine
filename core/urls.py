@@ -14,7 +14,8 @@ urlpatterns = [
     path('app/<str:pk>/<str:user>/', AppView.as_view(), name='app'),
     path("app/<str:pk>/<str:user>/new-tontine/", CreateTontine.as_view(), name="new_tontine"),
     path("app/<str:pk>/<str:user>/my-tontines/", ListTontine.as_view(), name="all_tontines"),
-    path("app/<str:pk>/<str:user>/<str:tont_id>/<str:tontine>/", DetailTontine.as_view(), name="detail_tontine"),
+    path("app/<str:pk>/<str:user>/<str:tont_id>/<slug:tontine>/", DetailTontine.as_view(), name="detail_tontine"),
     path("app/<str:pk>/<str:user>/<str:tont_id>/<str:tontine>/update", UpdateTontine.as_view(), name="update_tontine"),
     path("app/<str:pk>/<str:user>/<str:tont_id>/<str:tontine>/delete", DeleteTontine.as_view(), name="delete_tontine"),
+    path("app/<str:pk>/<str:user>/join", JoinTontine.as_view(), name="join_tontine"),
 ]
